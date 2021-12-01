@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Popup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400" rel="stylesheet" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <script defer src="./index.js"></script>
+    <style>
+      *,
+      *::after,
+      *::before {
+        box-sizing: border-box;
+      }
+      body {
+        min-height: 100vh;
+        font-family: 'Open Sans';
+        font-weight: 300;
+      }
+      .title {
+        margin: 10px;
+        color: #db5b33;
+        font-weight: 300;
+        text-align: center;
+      }
+      /* 팝업을 위한 CSS */
+      .popup {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(49, 49, 49, 0.5);
+      }
+      .popup-box {
+        position: absolute;
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        top: 20%;
+        left: 20%;
+        max-width: 520px;
+        min-height: 200px;
+        box-shadow: 4px 5px 27px 0px;
+      }
+      .closeBtn {
+        position: absolute;
+        right: 20px;
+      }
+      .closeBtn:hover {
+        font-weight: bold;
+      }
+      .btn:hover {
+        cursor: pointer;
+      }
+      .active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="title">Popup</h1>
+    <button id="popupBtn">toggle popup</button>
+
+    <!-- 팝업을 위한 HTML -->
+    <article class="popup">
+      <div class="popup-box">
+        <span class="popup-close closeBtn btn">X</span>
+        <h2 class="title">HELLO!</h2>
+        <p>
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam
+        </p>
+        <form class="popup-form">
+          <input type="text" class="popup-input" />
+          <button type="submit" class="btn">OK</button>
+          <button class="popup-close btn">Cancel</button>
+        </form>
+      </div>
+    </article>
+
+    <p class="popup-message"></p>
+  </body>
+</html>

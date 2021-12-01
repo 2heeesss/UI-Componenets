@@ -1,3 +1,5 @@
+import createElement from '../utils/createElement';
+
 let [mm, ss, ms] = [0, 0, 0];
 
 (function () {
@@ -48,15 +50,12 @@ let [mm, ss, ms] = [0, 0, 0];
   }
 
   function getNewLapsElem() {
-    const $newLaps = document.createElement('div');
-    $newLaps.classList.add('laps');
+    const $newLaps = createElement('div', 'laps');
 
-    const $newLapsTitle = document.createElement('div');
-    $newLapsTitle.classList.add('lap-title');
+    const $newLapsTitle = createElement('div', 'lap-title');
     $newLapsTitle.textContent = 'Laps';
 
-    const $newTimeTitle = document.createElement('div');
-    $newTimeTitle.classList.add('lap-title');
+    const $newTimeTitle = createElement('div', 'lap-title');
     $newTimeTitle.textContent = 'Time';
 
     $newLaps.append($newLapsTitle, $newTimeTitle);
@@ -82,8 +81,8 @@ let [mm, ss, ms] = [0, 0, 0];
     } else {
       setDisplayLapTitles('block');
 
-      const $timeNum = document.createElement('div');
-      const $timeText = document.createElement('div');
+      const $timeNum = createElement('div');
+      const $timeText = createElement('div');
       $timeNum.textContent = ++count;
       $timeText.textContent = $display.textContent;
       $laps.append($timeNum, $timeText);

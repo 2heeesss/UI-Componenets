@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar</title>
+    <!-- 원하는 폰트와 아이콘을 사용해도 좋다. -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <script defer src="./index.js"></script>
+    <style>
+      *,
+      *::after,
+      *::before {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Open Sans';
+        font-weight: 300;
+      }
+      .title {
+        color: #db5b33;
+        font-weight: 300;
+        text-align: center;
+      }
+      .input-date {
+        display: block;
+        margin: 5px auto;
+        padding: 5px;
+      }
+      .input-date:focus {
+        outline-color: #4762fc;
+      }
+      .calendar {
+        --calendar-size: 300px;
+        width: var(--calendar-size);
+        height: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        display: none;
+        margin: 0 auto;
+        box-shadow: #b3b3b2 2px 2px 20px 0px;
+      }
+      .calendar.active {
+        display: block;
+      }
+      .calendar-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgb(101, 196, 106);
+        color: white;
+        min-height: 50px;
+        width: 100%;
+        padding: 20px;
+      }
+      .calendar-title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+      }
+      .calendar-title span {
+        font-size: 16px;
+      }
+      .prev-btn,
+      .next-btn:hover {
+        cursor: pointer;
+      }
+      .calendar-grid {
+        display: grid;
+        padding: 15px;
+        justify-content: initial;
+        height: var(--calendar-size);
+        grid-template-rows: max-content;
+      }
+      .calendar-day {
+        display: grid;
+        grid-auto-flow: row;
+        grid-template-columns: repeat(7, minmax(10px, 1fr));
+        text-align: center;
+        font-size: calc(var(--calendar-size) / 25);
+        color: rgb(182, 182, 182);
+        margin-bottom: 10px;
+      }
+      .calendar-date {
+        display: grid;
+        grid-auto-flow: row;
+        grid-template-columns: repeat(7, minmax(10px, 1fr));
+        text-align: center;
+        justify-items: center;
+        align-items: center;
+      }
+      .calendar-date > span {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 40px;
+        font-size: calc(var(--calendar-size) / 25);
+      }
+      .calendar-date > span:hover {
+        color: white;
+        background-color: rgb(101, 196, 106);
+        cursor: pointer;
+      }
+
+      .calendar-date > span:nth-child(7n-6) {
+        color: red;
+      }
+      .calendar-date > .prev:nth-child(n),
+      .next {
+        color: rgb(182, 182, 182);
+      }
+
+      .today {
+        color: white;
+        background-color: rgb(101, 196, 106);
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="title">Calendar</h1>
+    <input type="text" class="input-date" placeholder="Select date" value="" readonly />
+
+    <div class="calendar">
+      <div class="calendar-nav">
+        <i class="prev-btn bx bx-left-arrow"></i>
+        <p class="calendar-title">
+          <span class="calendar-month">달</span>
+          <span class="calendar-year">년</span>
+        </p>
+        <i class="next-btn bx bx-right-arrow"></i>
+      </div>
+      <div class="calendar-grid">
+        <div class="calendar-day">
+          <span>SUN</span>
+          <span>MON</span>
+          <span>TUE</span>
+          <span>WED</span>
+          <span>THU</span>
+          <span>FRI</span>
+          <span>SAT</span>
+        </div>
+        <div class="calendar-date"></div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<!-- 뷰 -->
+<!-- 1. 캘린더 레이아웃 구성 (nav, grid) -->
+<!-- 1-1. 날짜 데이터 구하기 -->
+
+<!-- 기능  -->
+<!-- 1. input 클릭 시, 캘린더 출력 -->
+<!-- 날짜 위에 mouseover했을때 강조 -->
+<!-- nav 이동 시, 날짜 데이터 변경 -->
+<!-- 특정 날짜 클릭하면 콘솔에 출력 -->
+<!-- 오늘 날짜 캘린더에 표시 -->
+<!-- 동적으로 날짜 변경 -->
+<!-- 날짜 값 존재할 때, 다시 포커스하면 해당 날짜 기준으로 캘린더 렌더링 -->

@@ -13,3 +13,7 @@ export function isCorrectName(name) {
 export function isValidation(validation) {
   return Object.values(validation).every(valid => valid);
 }
+
+export function isCorrectConfirmPassword(inputData) {
+  return confirmPassword => inputData.password === confirmPassword;
+}

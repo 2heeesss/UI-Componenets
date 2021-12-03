@@ -1,40 +1,55 @@
-import { carouselState } from './carouselState.js';
+import { getCarouselState, setCarouselState } from './carouselState.js';
+
+function setDurationProperty($carouselSlides, duration) {
+  $carouselSlides.style.setProperty('--duration', duration);
+}
+
+function setCurrentSlideProperty($carouselSlides, slideIndex) {
+  $carouselSlides.style.setProperty('--currentSlide', slideIndex);
+}
+
+function setCurrentSlide(slideIndex) {
+  setCarouselState({ currentSlide: slideIndex });
+}
+
+function moveSlide($carouselSlides, slideIndex, duration) {
+  setCurrentSlide(slideIndex);
+  setDurationProperty($carouselSlides, duration);
+  setCurrentSlideProperty($carouselSlides, getCarouselState().currentSlide);
+}
+
+function silentMove($carouselSlides, index) {
+  setTimeout(() => moveSlide($carouselSlides, index, 0), 400);
+}
 
 export function addCarouselBtnEvents() {
   const $prevBtn = document.querySelector('.prev');
   const $nextBtn = document.querySelector('.next');
   const $carouselSlides = document.querySelector('.carousel-slides');
 
-  $carouselSlides.style.setProperty('--duration', 100);
-  $carouselSlides.style.setProperty('--currentSlide', carouselState.currentSlide);
-
-  function setSlideProperty(slideIndex, duration) {
-    $carouselSlides.style.setProperty('--duration', duration);
-    $carouselSlides.style.setProperty('--currentSlide', slideIndex);
-  }
-
-  function moveSlide(slideIndex) {
-    carouselState.currentSlide = slideIndex;
-    setSlideProperty(slideIndex, 0);
-  }
+  setCurrentSlideProperty($carouselSlides, getCarouselState().currentSlide);
 
   $prevBtn.addEventListener('click', () => {
-    carouselState.currentSlide -= 1;
-    if (carouselState.currentSlide < 0) return;
+    const newState = getCarouselState();
+    newState.currentSlide -= 1;
+    setCarouselState(newState);
+    if (newState.currentSlide < 0) return;
 
-    setSlideProperty(carouselState.currentSlide, 400);
-    if (carouselState.currentSlide === 0) {
-      setTimeout(() => moveSlide(carouselState.imageLength), 400);
+    moveSlide($carouselSlides, newState.currentSlide, 400);
+    if (newState.currentSlide === 0) {
+      silentMove($carouselSlides, newState.imageLength);
     }
   });
 
   $nextBtn.addEventListener('click', () => {
-    carouselState.currentSlide += 1;
-    if (carouselState.currentSlide > carouselState.imageLength + 1) return;
+    const newState = getCarouselState();
+    newState.currentSlide += 1;
+    setCarouselState(newState);
+    if (newState.currentSlide > newState.imageLength + 1) return;
 
-    setSlideProperty(carouselState.currentSlide, 400);
-    if (carouselState.currentSlide === carouselState.imageLength + 1) {
-      setTimeout(() => moveSlide(1), 400);
+    moveSlide($carouselSlides, newState.currentSlide, 400);
+    if (newState.currentSlide === newState.imageLength + 1) {
+      silentMove($carouselSlides, 1);
     }
   });
 }

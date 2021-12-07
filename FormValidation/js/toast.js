@@ -6,8 +6,30 @@ export const TOAST_TYPE = {
 
 export const createToastAction = (type, title, message) => ({ type, title, message });
 
+function autoRemoveToast(toastNodes, $newToast) {
+  const timeId = setTimeout(() => {
+    document.body.removeChild(toastNodes.pop());
+  }, 3000);
+
+  $newToast.lastElementChild.onclick = () => {
+    document.body.removeChild($newToast);
+    toastNodes.splice(toastNodes.indexOf($newToast), 1);
+    clearTimeout(timeId);
+  };
+}
+
+function appendToast(toastNodes) {
+  const $toasts = document.querySelectorAll('.toast');
+  $toasts.forEach($toast => {
+    $toast.style.bottom = `${
+      toastNodes.indexOf($toast) * parseInt(getComputedStyle($toast).getPropertyValue('--toast-height'), 10)
+    }px`;
+  });
+}
+
 export const toaster = {
   toasts: [],
+
   add({ type, title, message }) {
     const $fragment = document.createElement('div');
     $fragment.innerHTML = `
@@ -24,22 +46,8 @@ export const toaster = {
     const $newToast = $fragment.firstElementChild;
     this.toasts.unshift($newToast);
 
-    const timeId = setTimeout(() => {
-      document.body.removeChild(this.toasts.pop());
-    }, 3000);
-
-    $newToast.lastElementChild.onclick = () => {
-      document.body.removeChild($newToast);
-      this.toasts.splice(this.toasts.indexOf($newToast), 1);
-      clearTimeout(timeId);
-    };
-
-    const $toasts = document.querySelectorAll('.toast');
-    $toasts.forEach($toast => {
-      $toast.style.bottom = `${
-        this.toasts.indexOf($toast) * parseInt(getComputedStyle($toast).getPropertyValue('--toast-height'), 10)
-      }px`;
-    });
+    autoRemoveToast(this.toasts, $newToast);
+    appendToast(this.toasts);
 
     document.body.appendChild($newToast);
   },

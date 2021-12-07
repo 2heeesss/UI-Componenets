@@ -1,14 +1,28 @@
-// add하면 요소를 만들어서 출력하고
-// 일정 시간이 지나면 해당 요소 삭제 및 출력에서 제외
-
-const TOAST_TYPE = {
-  SUCCESS: 'success',
-  ERROR: 'error',
-  WARNING: 'warning',
-};
+import { TOAST_TYPE } from './textData/message.js';
 
 const toaster = {
   toasts: [],
+
+  autoRemoveToast($newToast) {
+    const timeId = setTimeout(() => {
+      document.body.removeChild(this.toasts.pop());
+    }, 3000);
+
+    $newToast.lastElementChild.onclick = () => {
+      document.body.removeChild($newToast);
+      this.toasts.splice(this.toasts.indexOf($newToast), 1);
+      clearTimeout(timeId);
+    };
+  },
+
+  appendToast() {
+    const $toasts = document.querySelectorAll('.toast');
+    $toasts.forEach($toast => {
+      $toast.style.bottom = `${
+        this.toasts.indexOf($toast) * parseInt(getComputedStyle($toast).getPropertyValue('--toast-height'), 10)
+      }px`;
+    });
+  },
 
   add({ type, title, message }) {
     const $fragment = document.createElement('div');
@@ -26,22 +40,8 @@ const toaster = {
     const $newToast = $fragment.firstElementChild;
     this.toasts.unshift($newToast);
 
-    const timeId = setTimeout(() => {
-      document.body.removeChild(this.toasts.pop());
-    }, 3000);
-
-    $newToast.lastElementChild.onclick = () => {
-      document.body.removeChild($newToast);
-      this.toasts.splice(this.toasts.indexOf($newToast), 1);
-      clearTimeout(timeId);
-    };
-
-    const $toasts = document.querySelectorAll('.toast');
-    $toasts.forEach($toast => {
-      $toast.style.bottom = `${
-        this.toasts.indexOf($toast) * parseInt(getComputedStyle($toast).getPropertyValue('--toast-height'), 10)
-      }px`;
-    });
+    this.autoRemoveToast($newToast);
+    this.appendToast();
 
     document.body.appendChild($newToast);
   },
